@@ -1,0 +1,63 @@
+{
+  "name": "piggy",
+  "version": "0.3.0",
+  "description": "A small Windows translation companion powered by DeepSeek.",
+  "main": "./out/main/index.js",
+  "author": "Piggy",
+  "license": "MIT",
+  "dependencies": {
+    "@electron-toolkit/utils": "^4.0.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.9",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.2.0",
+    "electron": "^43.4.0",
+    "electron-builder": "^26.15.3",
+    "electron-vite": "^5.0.0",
+    "vite": "^7.3.6",
+    "typescript": "^7.0.2"
+  },
+  "scripts": {
+    "dev": "electron-vite dev",
+    "typecheck": "tsc --noEmit -p tsconfig.node.json && tsc --noEmit -p tsconfig.web.json",
+    "build": "npm run typecheck && electron-vite build",
+    "smoke": "npm run build && electron . --smoke-test",
+    "preview": "electron-vite preview",
+    "dist:win": "npm run build && electron-builder --win"
+  },
+  "build": {
+    "appId": "com.piggy.translator.v3",
+    "productName": "Piggy",
+    "npmRebuild": false,
+    "electronDist": "node_modules/electron/dist",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "out/**/*",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "resources/piggy.png",
+        "to": "piggy.png"
+      }
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "resources/piggy.ico",
+      "artifactName": "Piggy-Setup-${version}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": "always",
+      "createStartMenuShortcut": true,
+      "shortcutName": "Piggy"
+    }
+  }
+}
